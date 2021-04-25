@@ -16,7 +16,7 @@ const bot = mineflayer.createBot(options)
 //salons discord
 let channeler;
 client.on('ready', async() => {
-    channeler = await client.channels.cache.get("835254128334077952")
+    channeler = await client.channels.cache.get("835936987503788122")
     console.log(`The discord bot logged in! Username: ${client.user.username}!`)
     if (channeler) console.log("channel trouvé")
 })
