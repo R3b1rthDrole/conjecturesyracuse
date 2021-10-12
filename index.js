@@ -19,7 +19,7 @@ while (finish) {
         }
     }
    
-    if(number >= 100000 && number % 100000 === 0) {
+    if(number >= 1000000 && number % 1000000 === 0) {
         console.log(number, tentatives, "\u2713")
     }
     
