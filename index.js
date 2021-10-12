@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 let finish = true;
 let number = 1;
-s
+
 while (finish) {
 
     let NewN = number;
