@@ -18,7 +18,9 @@ while (finish) {
             if (tentatives > 999999) finish = false;
         }
     }
-    console.log(number, tentatives, "\u2713")
+    if(tentatives > 200) {
+        console.log(number, tentatives, "\u2713")
+    }
     number++
 
 }
