@@ -1,83 +1,53 @@
-//load discord
-const Discord = require('discord.js')
-const client = new Discord.Client()
+import fetch from 'node-fetch';
 
-//load bot
-const mineflayer = require("mineflayer");
+let finish = true;
+let number = 1;
 
-var options = {
-    host: 'mc.pvp-warcraft.net',
-    username: process.env.PSEUDO,
-}
+while (finish) {
 
-const bot = mineflayer.createBot(options)
-
-//salons discord
-let channeler;
-client.on('ready', async() => {
-    channeler = await client.channels.cache.get(process.env.CHANNEL_ID)
-    console.log(`The discord bot logged in! Username: ${client.user.username}!`)
-    if (channeler) console.log("channel trouvé")
-})
-
-//Discord -> Minecraft
-client.on('message', message => {
-    if (message.author.id !== process.env.USER_ID) return;
-    if (message.channel.id !== channeler.id) return;
-    if (message.content.startsWith("!")) return;
-    if (!message.content) return;
-    bot.chat(message.content)
-})
-
-//Minecraft -> Discord
-bot.on('message', async(message) => {
-    let msg = message.toString()
-    if (!msg) return;
-    console.log(msg)
-    if (channeler) {
-        if (msg.includes("LARGAGE")) return;
-        if (msg.includes("ENTITEES")) return;
-        if (!okay) return;
-        channeler.send(msg).catch((err) => console.log(err))
+    let NewN = number;
+    let tentatives = 0;
+    while (NewN !== 1) {
+        if (NewN % 2 === 0) {
+            NewN = NewN / 2
+            tentatives++
+            if (tentatives > 999999) finish = false;
+        } else {
+            NewN = (NewN * 3) + 1
+            tentatives++
+            if (tentatives > 999999) finish = false;
+        }
     }
-})
+    console.log(number, tentatives, "\u2713")
+    number++
 
-let okay = false;
-//Connection
-bot.on('spawn', () => {
-    console.log('redémarrage, reconnection.. dans 5m..');
-    setTimeout(function() {
-        login();
-    }, 5 * 60 * 1000);
-})
-
-bot.once('spawn', () => {
-    console.log('Je rejoins..')
-    bot.chat(`/login ${process.env.PASSWORD}`)
-    console.log('connection..')
-    setTimeout(function() {
-        login();
-        okay = true;
-    }, 2500)
-})
-
-//Boussole + inventaire
-function login() {
-    bot.chat("/skycheat")
-    console.log("connecté, début de l'afk")
 }
 
-bot.on('windowOpen', (window) => {
-    console.log('inventaire ouvert')
-    bot.clickWindow(16, 0, 0)
-    console.log("connecté, début de l'afk")
-})
-
-//Catch
-bot.on('kicked', (reason, loggedIn) => {
-    console.log(reason, loggedIn)
-    bot = mineflayer.createBot(options);
-});
-bot.on('error', err => console.log(err))
-
-client.login(process.env.TOKEN)
+fetch(
+  'https://discord.com/api/webhooks/897617203246039040/aSlvVAF7OtfjReqT7LRrqPvyLrsbPIE3X5mb2HBUVdPfw4N8CWP-HQuT3ldLeYkOJCiY',
+  {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      avatar_url: "https://cdn.discordapp.com/avatars/273926313352626178/f1758408e5541dcaa090e8f5194ddca1.webp?size=128",  
+      content:
+        '||@everyone||',
+      allowed_mentions: {
+        parse: ['everyone'],
+      },
+      embeds: [
+        {
+          color: 11730954,
+          author: {
+            name: 'R3b1rth',
+            icon_url: 'https://cdn.discordapp.com/avatars/273926313352626178/f1758408e5541dcaa090e8f5194ddca1.webp?size=128',
+          },
+          title: 'Nombre trouvé !',
+          description: `Nombre: ${number} - Tentatives: ${tentatives}`,
+        },
+      ],
+    }),
+  }
+);
