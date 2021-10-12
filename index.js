@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 let finish = true;
 let number = 1;
-
+s
 while (finish) {
 
     let NewN = number;
@@ -19,7 +19,9 @@ while (finish) {
         }
     }
    
-    //console.log(number, tentatives, "\u2713")
+    if(number >= 100000 && number % 100000 === 0) {
+        console.log(number, tentatives, "\u2713")
+    }
     
     number++
 
